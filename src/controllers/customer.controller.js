@@ -1,21 +1,21 @@
-import { prisma } from '../config/db.js'
+import { prisma } from "../config/db.js";
 
 export const getCustomers = async (req, res) => {
   try {
     const customers = await prisma.customer.findMany({
       where: {
-        userId: req.userId
-      }
-    })
-    res.json(customers)
+        userId: req.userId,
+      },
+    });
+    res.json(customers);
   } catch (error) {
-    res.status(500).json({ message: error.message })
+    res.status(500).json({ message: error.message });
   }
-}
+};
 
 export const createCustomer = async (req, res) => {
   try {
-    const { firstName, lastName, email, phone } = req.body
+    const { firstName, lastName, email, phone } = req.body;
 
     const newCustomer = await prisma.customer.create({
       data: {
@@ -23,20 +23,20 @@ export const createCustomer = async (req, res) => {
         lastName,
         email,
         phone,
-        userId: req.userId
-      }
-    })
+        userId: req.userId,
+      },
+    });
 
-    res.json(newCustomer)
+    res.json(newCustomer);
   } catch (error) {
-    res.status(500).json({ message: error.message })
+    res.status(500).json({ message: error.message });
   }
-}
+};
 
 export const updateCustomer = async (req, res) => {
   try {
-    const { id } = req.params
-    const { firstName, lastName, email, phone } = req.body
+    const { id } = req.params;
+    const { firstName, lastName, email, phone } = req.body;
 
     const updatedCustomer = await prisma.customer.update({
       where: { id: parseInt(id) },
@@ -44,26 +44,26 @@ export const updateCustomer = async (req, res) => {
         firstName,
         lastName,
         email,
-        phone
-      }
-    })
+        phone,
+      },
+    });
 
-    res.json(updatedCustomer)
+    res.json(updatedCustomer);
   } catch (error) {
-    res.status(500).json({ message: error.message })
+    res.status(500).json({ message: error.message });
   }
-}
+};
 
 export const deleteCustomer = async (req, res) => {
   try {
-    const { id } = req.params
+    const { id } = req.params;
 
     await prisma.customer.delete({
-      where: { id: parseInt(id) }
-    })
+      where: { id: parseInt(id) },
+    });
 
-    res.json({ message: 'Cliente elminado satisfactoriamente' })
+    res.json({ message: "Cliente elminado satisfactoriamente" });
   } catch (error) {
-    res.status(500).json({ message: error.message })
+    res.status(500).json({ message: error.message });
   }
-}
+};

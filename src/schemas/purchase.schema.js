@@ -1,5 +1,5 @@
-import { z } from 'zod'
+import { z } from "zod";
 
 export const createPurchaseSchema = z.object({
-  purchaseDate: z.string().datetime().optional()
-})
+  purchaseDate: z.string().datetime().optional(),
+});
