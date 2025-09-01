@@ -80,7 +80,9 @@ export const AuthProvider = ({ children }) => {
       }
 
       try {
-        const res = await verifyTokenRequest(cookies.token);
+        // No necesitamos pasar el token como parámetro
+        // ya que se envía automáticamente en las cookies
+        const res = await verifyTokenRequest();
         // console.log(res);
         if (!res.data) return setIsAuthenticated(false);
         setIsAuthenticated(true);
