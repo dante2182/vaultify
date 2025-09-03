@@ -6,7 +6,6 @@ import {
   verifyTokenRequest,
   profileRequest,
 } from "../api/auth";
-import Cookies from "js-cookie";
 
 const AuthContext = createContext();
 
