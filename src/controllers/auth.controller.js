@@ -116,6 +116,11 @@ export const profile = async (req, res) => {
 
 export const verifyToken = async (req, res) => {
   const { token } = req.cookies;
+  
+  if (!token) {
+    return res.sendStatus(401);
+  }
+  
   jwt.verify(token, TOKEN_SECRET, async (err, decoded) => {
     if (err) return res.sendStatus(401);
 
