@@ -72,23 +72,20 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const checkLogin = async () => {
-      const cookies = Cookies.get();
-      if (!cookies.token) {
-        setIsAuthenticated(false);
-        setLoading(false);
-        return;
-      }
-
       try {
-        // No necesitamos pasar el token como parámetro
-        // ya que se envía automáticamente en las cookies
+        // Hacer directamente la llamada al endpoint verify
+        // Si hay cookie httpOnly válida, el backend responderá con los datos del usuario
         const res = await verifyTokenRequest();
-        // console.log(res);
-        if (!res.data) return setIsAuthenticated(false);
+        if (!res.data) {
+          setIsAuthenticated(false);
+          setLoading(false);
+          return;
+        }
         setIsAuthenticated(true);
         setUser(res.data);
         setLoading(false);
       } catch (error) {
+        // Si no hay cookie válida o hay error, el usuario no está autenticado
         setIsAuthenticated(false);
         setLoading(false);
       }
