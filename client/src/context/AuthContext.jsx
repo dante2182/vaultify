@@ -56,7 +56,8 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    Cookies.remove("token");
+    // No necesitamos remover cookies httpOnly desde el cliente
+    // El backend se encarga de limpiar la cookie cuando se llama al endpoint logout
     setUser(null);
     setIsAuthenticated(false);
   };
