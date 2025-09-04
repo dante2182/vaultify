@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { prisma } from "../config/db.js";
 import { createAccessToken } from "../libs/jwt.js";
-import { TOKEN_SECRET } from "../config/env.js";
+import { TOKEN_SECRET, NODE_ENV } from "../config/env.js";
 
 export const register = async (req, res) => {
   try {
@@ -29,8 +29,8 @@ export const register = async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      secure: NODE_ENV === "production",
+      sameSite: NODE_ENV === "production" ? "none" : "lax",
     });
 
     res.json({
@@ -64,8 +64,8 @@ export const login = async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      secure: NODE_ENV === "production",
+      sameSite: NODE_ENV === "production" ? "none" : "lax",
     });
 
     res.json({
@@ -81,9 +81,8 @@ export const login = async (req, res) => {
 export const logout = async (req, res) => {
   res.clearCookie("token", {
     httpOnly: true,
-
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "none",
+    secure: NODE_ENV === "production",
+    sameSite: NODE_ENV === "production" ? "none" : "lax",
     expires: new Date(0),
   });
   res.json({ message: "Logout success" });
@@ -116,11 +115,11 @@ export const profile = async (req, res) => {
 
 export const verifyToken = async (req, res) => {
   const { token } = req.cookies;
-  
+
   if (!token) {
     return res.sendStatus(401);
   }
-  
+
   jwt.verify(token, TOKEN_SECRET, async (err, decoded) => {
     if (err) return res.sendStatus(401);
 

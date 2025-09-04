@@ -5,6 +5,7 @@ import {
   registerRequest,
   verifyTokenRequest,
   profileRequest,
+  logoutRequest,
 } from "../api/auth";
 
 const AuthContext = createContext();
@@ -54,11 +55,15 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const logout = () => {
-    // No necesitamos remover cookies httpOnly desde el cliente
-    // El backend se encarga de limpiar la cookie cuando se llama al endpoint logout
-    setUser(null);
-    setIsAuthenticated(false);
+  const logout = async () => {
+    try {
+      await logoutRequest();
+    } catch (error) {
+      console.log("Error al cerrar sesión", error);
+    } finally {
+      setUser(null);
+      setIsAuthenticated(false);
+    }
   };
 
   const getUser = async () => {

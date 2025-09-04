@@ -27,13 +27,16 @@ export default function Sidebar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const location = useLocation();
   const { user, logout } = useAuth();
+  const handleLogout = async () => {
+    await logout();
+  };
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
   return (
     <>
       <button
-        className='lg:hidden fixed top-4 left-4 z-50 p-2 rounded-md bg-gray-800 text-white'
+        className="fixed top-4 left-4 z-50 p-2 text-white bg-gray-800 rounded-md lg:hidden"
         onClick={toggleSidebar}
       >
         {isSidebarOpen ? <FiX size={24} /> : <FiMenu size={24} />}
@@ -44,8 +47,8 @@ export default function Sidebar() {
           isSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         } lg:relative lg:translate-x-0`}
       >
-        <div className='flex-1 p-5 pt-16 lg:pt-5'>
-          <h1 className='text-2xl font-bold mb-8'>Dashboard</h1>
+        <div className="flex-1 p-5 pt-16 lg:pt-5">
+          <h1 className="mb-8 text-2xl font-bold">Dashboard</h1>
           <nav>
             {menuItems.map((item) => {
               const Icon = item.icon;
@@ -68,16 +71,16 @@ export default function Sidebar() {
         </div>
 
         {/* User Profile and Logout Section */}
-        <div className='p-5 border-t border-gray-700'>
-          <Link to='/dashboard/profile'>
-            <div className='flex items-center gap-3 p-3 rounded-lg hover:bg-gray-700 cursor-pointer'>
+        <div className="p-5 border-t border-gray-700">
+          <Link to="/dashboard/profile">
+            <div className="flex gap-3 items-center p-3 rounded-lg cursor-pointer hover:bg-gray-700">
               <FiUser size={20} />
               <span>{user.name}</span>
             </div>
           </Link>
           <div
-            className='flex items-center gap-3 p-3 rounded-lg hover:bg-gray-700 cursor-pointer text-red-400'
-            onClick={logout} // Añade el manejador de eventos para logout
+            className="flex gap-3 items-center p-3 text-red-400 rounded-lg cursor-pointer hover:bg-gray-700"
+            onClick={handleLogout}
           >
             <FiLogOut size={20} />
             <span>Logout</span>
